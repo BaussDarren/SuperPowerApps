@@ -1,150 +1,252 @@
-# Claude Code Installation Guide for Windows
+# CORRECT Claude Code Installation Guide for Windows
 
-## ==== HERE ARE 3 WAYS TO INSTALL CLAUDE CODE ====
+## Important: The Command is `claude` NOT `claude-code`!
 
-## Option 1: Direct Download (RECOMMENDED for Windows)
-
-**What this does:** Downloads the pre-built Windows executable directly from Anthropic's releases.
-
-1. **Download the Windows executable:**
-   - Go to the Claude Code releases page: https://github.com/anthropics/claude-code/releases
-   - Download the latest `claude-code-windows-amd64.exe` file
-   - Rename it to `claude-code.exe` for convenience
-
-2. **Add to your PATH:**
-   
-   **What this does:** Makes the `claude-code` command available from any directory in your terminal.
-   
-   ```powershell
-   # Create a directory for CLI tools if you don't have one
-   # This creates a folder in your user directory to store command-line tools
-   New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\bin"
-   
-   # Move the downloaded exe to this directory
-   # Replace YOUR_DOWNLOAD_PATH with your actual download location (usually C:\Users\YourName\Downloads)
-   Move-Item -Path "YOUR_DOWNLOAD_PATH\claude-code.exe" -Destination "$env:USERPROFILE\bin\claude-code.exe"
-   
-   # Add the bin directory to your PATH for the current session
-   # This makes the command available immediately
-   $env:PATH = "$env:USERPROFILE\bin;$env:PATH"
-   
-   # Add to PATH permanently (requires admin privileges)
-   # This ensures the command is available in future terminal sessions
-   [Environment]::SetEnvironmentVariable("Path", "$env:USERPROFILE\bin;" + [Environment]::GetEnvironmentVariable("Path", "User"), "User")
-   ```
-
-3. **Set up your API key:**
-   
-   **What this does:** Authenticates you with the Anthropic API so Claude Code can make requests on your behalf.
-   
-   ```powershell
-   # Set the API key for current session
-   # Replace YOUR_API_KEY with your actual Anthropic API key
-   $env:ANTHROPIC_API_KEY = "YOUR_API_KEY"
-   
-   # Set it permanently for your user
-   [Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "YOUR_API_KEY", "User")
-   ```
-   
-   **Get your API key here:** https://console.anthropic.com/settings/keys
-
-4. **Verify installation:**
-   
-   ```powershell
-   # This should display the Claude Code version
-   claude-code --version
-   ```
+Claude Code is installed via npm and runs with the command `claude` in your terminal.
 
 ---
 
-## Option 2: Using npm (if you have Node.js installed)
+## Prerequisites
 
-**What this does:** Installs Claude Code as a Node.js package globally on your system.
+You need **Node.js 18 or newer** installed. Let's check:
 
-**Check if you have Node.js:**
 ```powershell
-# This checks if Node.js is installed
+# This checks if Node.js is installed and shows version
 node --version
+
+# This checks if npm is installed
+npm --version
 ```
 
-If Node.js is installed:
-```powershell
-# Install Claude Code globally via npm
-# The -g flag installs it system-wide rather than just for one project
-npm install -g @anthropic/claude-code
-
-# Set your API key (same as Option 1 step 3)
-$env:ANTHROPIC_API_KEY = "YOUR_API_KEY"
-[Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "YOUR_API_KEY", "User")
-
-# Verify installation
-claude-code --version
-```
-
-**Don't have Node.js?** Download it from: https://nodejs.org/
+**If Node.js is NOT installed:**
+- Download it from: https://nodejs.org/
+- Choose the LTS version (recommended)
+- Run the installer and restart your terminal
 
 ---
 
-## Option 3: Using Chocolatey (Windows package manager)
+## Installation Steps
 
-**What this does:** Uses Chocolatey package manager to install and manage Claude Code.
+### Step 1: Install Claude Code via npm
 
-**Check if you have Chocolatey:**
 ```powershell
-# This checks if Chocolatey is installed
-choco --version
+# This installs Claude Code globally on your system
+# The @anthropic-ai scope is the official package
+npm install -g @anthropic-ai/claude-code
 ```
 
-If Chocolatey is installed:
+**Note:** If you get permission errors, try:
 ```powershell
-# Install Claude Code via Chocolatey
-choco install claude-code
-
-# Set your API key (same as Option 1 step 3)
-$env:ANTHROPIC_API_KEY = "YOUR_API_KEY"
-[Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "YOUR_API_KEY", "User")
-
-# Verify installation
-claude-code --version
+# Open PowerShell as Administrator and run:
+npm install -g @anthropic-ai/claude-code
 ```
 
-**Don't have Chocolatey?** Install it from: https://chocolatey.org/install
+### Step 2: Verify Installation
+
+```powershell
+# This should show Claude Code version if installed correctly
+claude --version
+```
+
+### Step 3: Start Claude Code
+
+```powershell
+# Navigate to your project directory first
+cd C:\Users\bauss\src\super-power-apps
+
+# Start Claude Code - it will prompt for login on first use
+claude
+```
+
+### Step 4: Login Options
+
+When you run `claude` for the first time, you'll be prompted to choose a login method:
+
+1. **Claude.ai Account (Pro or Max Plan)** - If you have a paid Claude subscription
+   - Uses your existing Claude Pro ($20/month) or Max ($100-200/month) subscription
+   - Best for general usage
+
+2. **Anthropic Console Account** - For API usage
+   - Requires an API key from: https://console.anthropic.com/settings/keys
+   - Uses pay-as-you-go API pricing
+   - Best for developers who want direct API access
+
+The login will open a browser window for authentication.
 
 ---
 
-## Using Claude Code
+## Alternative Installation Methods
 
-Once installed, you can use Claude Code like this:
+### Using Windows Package Installer (Alternative)
 
 ```powershell
-# Get help and see available commands
-claude-code --help
+# This downloads and runs the Windows installer script
+curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
 
-# Generate code for a specific task
-claude-code generate "Create a Python function to calculate fibonacci numbers"
+# For a specific version
+curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd 1.0.58 && del install.cmd
+```
 
-# Debug existing code
-claude-code debug yourfile.py
+---
+
+## Using Claude Code - Commands
+
+Once installed and logged in, here's how to use Claude Code:
+
+### Basic Commands
+
+```powershell
+# Start interactive session in current directory
+claude
+
+# Start with an initial prompt
+claude "explain this codebase structure"
+
+# Direct mode - get answer and exit
+claude -p "write a function to calculate factorial"
+```
+
+### Inside Interactive Mode - Slash Commands
+
+When you're in an interactive session, you can use these commands:
+
+```
+/help          # Show all available commands
+/clear         # Clear context and start fresh
+/model         # Switch between models (Sonnet 4 or Opus 4)
+/status        # Check usage limits
+/logout        # Log out of Claude Code
+/login         # Switch accounts
+/bug           # Report a bug
+/quit          # Exit Claude Code
+```
+
+### Working with Code
+
+```powershell
+# Have Claude explain your code
+"Can you explain what this function does?"
+
+# Generate new code
+"Create a REST API endpoint for user authentication"
+
+# Debug issues
+"I'm getting this error: [paste error]. How do I fix it?"
 
 # Refactor code
-claude-code refactor yourfile.js
+"Can you refactor this function to be more efficient?"
 
-# Ask Claude Code questions about your codebase
-claude-code chat "How does the authentication system work in this project?"
+# Write tests
+"Write unit tests for the UserService class"
 ```
+
+### File Operations
+
+Claude Code can:
+- Read files in your project directory automatically
+- Edit files (asks for permission first)
+- Create new files
+- Run commands (with permission)
+
+Example workflow:
+```
+You: "Create a new React component for a login form"
+Claude: [Shows the code and asks to create LoginForm.jsx]
+You: [Approve]
+Claude: [Creates the file]
+```
+
+---
 
 ## Troubleshooting
 
-**If `claude-code` still isn't recognized after installation:**
-1. Close and reopen your PowerShell window (to reload PATH)
-2. Or run: `refreshenv` (if using Chocolatey)
-3. Or manually restart Windows Terminal/PowerShell
+### If `claude` command not found after installation:
 
-**API Key issues:**
-- Make sure your API key is valid: https://console.anthropic.com/settings/keys
-- Check if the environment variable is set: `echo $env:ANTHROPIC_API_KEY`
+```powershell
+# 1. Check if it's installed
+npm list -g @anthropic-ai/claude-code
 
-**Need more help?**
-- Claude Code documentation: https://docs.anthropic.com/en/docs/claude-code
-- API documentation: https://docs.anthropic.com
-- Support: https://support.anthropic.com
+# 2. Find where npm installs global packages
+npm config get prefix
+
+# 3. Make sure that path is in your PATH environment variable
+echo $env:PATH
+
+# 4. Try reinstalling
+npm uninstall -g @anthropic-ai/claude-code
+npm install -g @anthropic-ai/claude-code
+
+# 5. Restart your terminal completely
+```
+
+### If you get permission errors:
+
+```powershell
+# Option 1: Run PowerShell as Administrator
+
+# Option 2: Change npm's default directory
+npm config set prefix "$env:USERPROFILE\.npm-global"
+# Then add $env:USERPROFILE\.npm-global to your PATH
+
+# Option 3: Use npx instead of global install
+npx @anthropic-ai/claude-code
+```
+
+### Check your Node/npm setup:
+
+```powershell
+# Run diagnostic
+npm doctor
+
+# Clear npm cache if having issues
+npm cache clean --force
+```
+
+---
+
+## Costs and Limits
+
+### With Claude Pro/Max Subscription:
+- **Pro ($20/month)**: Good for light coding on small repos
+- **Max 5x ($100/month)**: 50-200 prompts every 5 hours
+- **Max 20x ($200/month)**: 200-800 prompts every 5 hours
+
+### With Anthropic Console (API):
+- Pay per token at standard API rates
+- Check pricing: https://www.anthropic.com/pricing
+
+---
+
+## Important Links
+
+- **Claude Code Documentation:** https://docs.anthropic.com/en/docs/claude-code
+- **Get API Key (if using Console):** https://console.anthropic.com/settings/keys
+- **Claude Subscription Plans:** https://claude.ai/upgrade
+- **Support:** https://support.anthropic.com
+
+---
+
+## Tips for Effective Use
+
+1. **Clear context between tasks**: Use `/clear` to reset when switching between different problems
+2. **Be specific**: "Fix the login bug" → "The login form doesn't validate email format correctly"
+3. **Use markdown files as scratchpads**: For complex tasks, have Claude write progress to a .md file
+4. **Check `/status` regularly**: Monitor your usage limits
+5. **Use the right model**: Sonnet 4 for everyday tasks, Opus 4 for complex problems
+
+---
+
+## Quick Reference Card
+
+| What You Want | Command/Prompt |
+|--------------|----------------|
+| Start Claude | `claude` |
+| Get help | `/help` |
+| Clear context | `/clear` |
+| Check limits | `/status` |
+| Switch model | `/model` |
+| Exit | `/quit` or Ctrl+C |
+| Generate code | "Create a [description]" |
+| Debug | "This error occurs: [error]" |
+| Explain code | "Explain this function" |
+| Refactor | "Refactor this for better performance" |
