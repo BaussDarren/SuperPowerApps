@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell:*)",
+      "Bash(ls \"$env:APPDATA\\npm\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
