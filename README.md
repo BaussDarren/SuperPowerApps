@@ -1,12 +1,8 @@
 # Read Me
 
-This is my first repo regarding Power Apps. Another useful repo [can be found here](https://github.com/BaussDarren/my-power-apps-snippets). 
+This is my first repo regarding Power Apps. Another useful repo [can be found here](https://github.com/BaussDarren/my-power-apps-snippets).
 
-
-```markdown
-# Read Me
-
-This is my first repo regarding Power Apps. Another useful repo [can be found here](https://github.com/BaussDarren/my-power-apps-snippets). 
+support@superpowerlabs.co
 
 ---
 
