@@ -235,7 +235,10 @@
 
     // GitHub Copilot settings - ADDED TO FIX INSTRUCTIONS ISSUE
     "github.copilot.enable": {
-        "*": true
+        "*": true,
+        "plaintext": false,
+        "markdown": true,
+        "scminput": false
     },
     "github.copilot.chat.localeOverride": "en",
     "github.copilot.chat.codeGeneration.instructions": [
